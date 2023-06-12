@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Connect.Models.User>
+
+@{
+    ViewBag.Title = "Search";
+}
+<style>
+    .find{
+        margin-top:20px;
+    }
+    .search {
+        background-color: #55BDCA;
+        color: #EAF7F8;
+        padding: 1em;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        outline: none;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.4;
+        width: 400px;
+        height: 20px;
+        transition: all 0.2s;
+    }
+        .search::placeholder {
+            color: #EAF7F8;
+        }
+        .search:hover {
+            cursor: pointer;
+            background-color: #eee;
+            border-color: #55BDCA;
+            color: #55BDCA;
+        }
+            .search:hover::placeholder {
+                color: #55BDCA;
+            }
+        .search:focus {
+            cursor: text;
+            color: #022449;
+            background-color: white;
+            border-color: #022449;
+        }
+            .search:focus::placeholder {
+                color: #022449;
+            }
+    button {
+        margin-top: -3px;
+    }
+    .title {
+        padding-left: 45px;
+        color: #022449;
+    }
+    .name {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+    }
+    .userName {
+        padding: .75em;
+        margin-bottom: .5em;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-radius: 10px;
+        margin-left: 10px;
+        background-color: #F27D42;
+        color: #EAF7F8;
+        padding-left:1em;
+    }
+        .userName a {
+            color: #EAF7F8;
+            font-weight:bold;
+        }
+        .userName a:hover{
+            color: #022449;
+            text-decoration:none;
+        }
+    #userList {
+        margin-top: 20px;
+    }
+    .bg-search {
+        background-color: #022449;
+        color: #EAF7F8;
+    }
+
+        .bg-search:hover {
+            background-color: #021B37;
+            color: #EAF7F8;
+        }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-4 title">
+            <h2>Find Connections</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-4 find">
+            <form method="get" action="@Url.Action("Index")" data-connect-ajax="true" data-connect-target="#userList">
+                <input type="search" name="searchTerm" placeholder="Find Users..." class="search" style="display:inline-block" data-connect-autocomplete="@Url.Action("Autocomplete")" autocomplete="off" />
+                <button type="submit" value="Search" class="btn bg-search btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    @Html.Partial("_Users", Model)
+</div>
+
+

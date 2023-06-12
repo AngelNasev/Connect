@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Connect.Models.User>
+
+    <div id="userList" class="col-sm-6 col-sm-offset-4">
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <div class="col-sm-6 userName bg-info">
+                    @Html.ActionLink(item.Username, "Index", "UserProfile", new { @id = item.UserId }, new { @class = "name" })
+                </div>
+            </div>
+        }
+    </div>

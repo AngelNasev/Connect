@@ -1,0 +1,295 @@
+﻿@model Connect.Models.ProfileVM
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Profile";
+}
+<style>
+    .name {
+        padding: 1em;
+        background-color: #D5EFF2;
+        border-left: 1px solid #022449;
+    }
+    div:has(> .friends) {
+        background-color: lightgreen;
+        border-left: 1px solid #022449;
+        border-right: 1px solid #022449;
+        color: #022449;
+    }
+    div:has(> .pending) {
+        background-color: lightyellow;
+        border-left: 1px solid #022449;
+        border-right: 1px solid #022449;
+        color: #022449;
+    }
+    div:has(> .add) {
+        background-color: #F27D42;
+        border-left: 1px solid #022449;
+        border-right: 1px solid #022449;
+        color: #022449;
+    }
+    .add a {
+        color: #EAF7F8;
+    }
+        .add a:hover {
+            color: #022449;
+            text-decoration: none;
+        }
+    div:has(> .current) {
+        background-color: #D5EFF2;
+        border-left: 1px solid #022449;
+        border-right: 1px solid #022449;
+        color: #022449;
+    }
+    .edit-div {
+        height: 91px;
+        background-color: #D5EFF2;
+        border-right: 1px solid #022449;
+    }
+    .edit{
+        margin-left:15px;
+        margin-top: 25px;
+    }
+    .sixteen {
+        color: #022449;
+    }
+    .dates {
+        padding: 0.75em;
+        background-color: #AADEE5;
+    }
+        .dates:first-of-type {
+            border-left: 1px solid #022449;
+        }
+        .dates:last-of-type {
+            border-right: 1px solid #022449;
+        }
+    .bio {
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: #022449;
+
+    }
+    .bio-div {
+        height: 77.1px;
+        border-bottom: 1px solid #022449;
+        background-color: #95D6DE;
+    }
+        .bio-div:first-of-type {
+            border-left: 1px solid #022449;
+            border-radius: 0 0 0 10px;
+        }
+        .bio-div:last-of-type {
+            border-right: 1px solid #022449;
+            border-radius: 0 0 10px 0;
+        }
+    .bio-row{
+        margin-bottom: 1em;
+    }
+    .post {
+        padding: .75em;
+        margin-bottom: .5em;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-radius: 10px;
+    }
+    .text {
+        height: 80px;
+    }
+    .text p {
+        font-size: 16px;
+        color: #022449;
+        padding: 10px;
+    }
+    em {
+        color: #EAF7F8;
+    }
+
+    .user {
+        font-size: 18px;
+        color: #022449;
+        padding: 10px;
+    }
+
+        .user:hover {
+            text-decoration: none;
+            color: #EAF7F8;
+        }
+
+    h2 {
+        display: inline-block;
+        color: #022449;
+    }
+    .bg-post {
+        background-color: #55BDCA;
+    }
+
+    .bg-plus {
+        background-color: #F27D42;
+        color: #EAF7F8;
+    }
+
+        .bg-plus:hover {
+            background-color: #D46D3A;
+            color: #EAF7F8;
+        }
+
+    .bg-minus {
+        background-color: #022449;
+        color: #EAF7F8;
+    }
+
+        .bg-minus:hover {
+            background-color: #021B37;
+            color: #EAF7F8;
+        }
+    .cog {
+        font-size: 36px;
+        color: #022449;
+    }
+        .cog:hover {
+            color: #F27D42;
+        }
+    .connections {
+        color: #F27D42;
+        font-weight:bold;
+    }
+        .connections:hover {
+            text-decoration: none;
+            color: #55BDCA;
+        }
+    .num-conn {
+        background-color: #BFE6EB;
+        border-left: 1px solid #022449;
+        border-right: 1px solid #022449;
+        color: #022449;
+    }
+    .list-conn {
+        background-color: #BFE6EB;
+        border-right: 1px solid #022449;
+        color: #022449;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7 col-sm-offset-2 bg-info name">
+            <h2>@Html.DisplayFor(model => model.Username)</h2>
+        </div>
+        <div class="col-sm-1 edit-div">
+            @if (User.Identity.GetUserId() == Model.UserId)
+            {
+                <h5 class="edit">
+                    <a href="@Url.Action("Edit")/@Model.UserId">
+                        <span class="glyphicon glyphicon-cog cog"></span>
+                    </a>
+
+                </h5>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 bg-info">
+            @if (User.Identity.GetUserId() != Model.UserId)
+            {
+                if (Model.Friends.Contains(User.Identity.GetUserId()))
+                {
+                    <h4 class="friends">Connected</h4>
+                }
+                else if (Model.Pending.Contains(User.Identity.GetUserId()))
+                {
+                    <h4 class="pending">Pending Connection Request</h4>
+                }
+                else
+                {
+                    <h4 class="add">
+                        <a href="@Url.Action("SendRequest","UserProfile", new { id = Model.UserId })">
+                            <span class="glyphicon glyphicon-plus"></span> Add Connection
+                        </a>
+                    </h4>
+                }
+            }
+            else
+            {
+                <p class="current">&nbsp;</p>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-2 num-conn">
+            <h4>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+                </svg>
+                @Html.DisplayFor(model => model.NumConnections) Connections
+            </h4>
+        </div>
+        <div class="col-sm-6 list-conn">
+            <h4>@Html.ActionLink("View Connections", "Connections", new { id = Model.UserId }, new { @class = "connections" })</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-2 bg-danger dates">
+            <h4 class="sixteen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-balloon" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 9.984C10.403 9.506 12 7.48 12 5a4 4 0 0 0-8 0c0 2.48 1.597 4.506 4 4.984ZM13 5c0 2.837-1.789 5.227-4.52 5.901l.244.487a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3.177 3.177 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.244-.487C4.789 10.227 3 7.837 3 5a5 5 0 0 1 10 0Zm-6.938-.495a2.003 2.003 0 0 1 1.443-1.443C7.773 2.994 8 2.776 8 2.5c0-.276-.226-.504-.498-.459a3.003 3.003 0 0 0-2.46 2.461c-.046.272.182.498.458.498s.494-.227.562-.495Z" />
+                </svg>
+                Born @Model.DateOfBirth.ToShortDateString()
+            </h4>
+        </div>
+        <div class="col-sm-4 bg-danger dates">
+            <h4 class="sixteen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                </svg>
+                Joined @Model.DateCreated.ToShortDateString()
+            </h4>
+        </div>
+    </div>
+    <div class="row bio-row">
+        <div class="col-sm-1 col-sm-offset-2 bg-primary bio-div">
+            <p class="bio">&nbsp;</p>
+        </div>
+        <div class="col-sm-7 bg-primary bio-div">
+            <p class="bio">@Html.DisplayFor(model => model.Bio)</p>
+        </div>
+    </div>
+    @if (Model.Friends.Contains(User.Identity.GetUserId()) || User.Identity.GetUserId() == Model.UserId)
+    {
+        foreach (var item in Model.Posts)
+        {
+            <div class="col-sm-8 col-sm-offset-2 post container table-bordered bg-post">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <b>
+                            @Html.ActionLink(Model.Username, "Index", "UserProfile", new { @id = item.AuthorId }, new { @class = "user" })
+                        </b>
+                    </div>
+                    <div class="col-sm-2">
+                        <h5><em>@Html.DisplayFor(modelItem => item.CreatedAt)</em></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 text">
+                        <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                    </div>
+                    <div class="col-sm-2">
+                        @if (User.Identity.GetUserId() == item.AuthorId)
+                        {
+                            <div class="buttons">
+                                @Html.ActionLink("Edit", "Edit", "Timeline", new { id = item.Id }, new { @class = "btn bg-plus btn-sm btn-block" })
+                                @Html.ActionLink("Delete", "Delete", "Timeline", new { id = item.Id }, new { @class = "btn bg-minus btn-sm btn-block" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="buttons">
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>
+

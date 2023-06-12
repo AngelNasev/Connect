@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/themes/base")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @using Microsoft.AspNet.Identity;
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+    <link rel="icon" href="~/Images/Connect.jpg"/>
+    <style>
+        .icon-img{
+            height:30px;
+            margin-top:-5px;
+        }
+        .link{
+            padding-left:1.5em;
+        }
+        .navbar-inverse, navbar, navbar-fixed-top {
+            background-color: #022449;
+        }
+        .navbar-brand {
+            color: #F27D42 !important;
+        }
+        .navbar-brand:hover {
+            color: #EAF7F8 !important;
+        }
+        .body-content {
+            background-color: #EAF7F8;
+        }
+        body {
+            background-color: #EAF7F8;
+        }
+        .footer p {
+            color: #022449;
+        }
+        hr {
+            border-color: #022449;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index","Home")" class="navbar-brand link">
+                    <img src="~/Images/Connect.jpg" class="icon-img"/>
+                </a>
+                <a href="@Url.Action("Index","Timeline")" class="navbar-brand link">
+                    <span class="glyphicon glyphicon-list icon"></span>
+                    <span class="title-shared">Timeline</span>
+                </a>
+                <a href="@Url.Action("Index","UserProfile",new { @id = User.Identity.GetUserId() })" class="navbar-brand link">
+                    <span class="glyphicon glyphicon-user icon"></span>
+                    <span class="title-shared">Profile</span>
+                </a>
+                <a href="@Url.Action("Index","Search")" class="navbar-brand link">
+                    <span class="glyphicon glyphicon-search icon"></span>
+                    <span class="title-shared">Search</span>
+                </a>
+                
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div>
+            @RenderBody()
+        </div>
+        <hr />
+        <footer class="footer" id="footer">
+            <p>&copy; @DateTime.Now.Year - Connect</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/connect")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

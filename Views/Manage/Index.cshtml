@@ -1,0 +1,46 @@
+﻿@model Connect.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+<style>
+    h2, h4 {
+        color: #022449;
+    }
+    .bg-plus {
+        background-color: #F27D42;
+        color: #EAF7F8;
+    }
+
+        .bg-plus:hover {
+            background-color: #D46D3A;
+            color: #EAF7F8;
+        }
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <h2>Log in</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 container">
+            <p class="text-success">@ViewBag.StatusMessage</p>
+            <h4>Change your account settings</h4>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5 container">
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword",null, new {@class="btn bg-plus btn-default"})
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword", null, new { @class = "btn bg-plus btn-default" })
+            }
+        </div>
+    </div>
+</div>

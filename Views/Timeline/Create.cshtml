@@ -1,0 +1,132 @@
+﻿@model Connect.Models.CreatePost
+
+@{
+    ViewBag.Title = "CreatePost";
+}
+<style>
+    .footer{
+        display:none;
+    }
+    hr{
+        display:none;
+    }
+    .add {
+        padding: 1em;
+        margin-top: 2em;
+        margin-bottom: 2em;
+    }
+    .textarea {
+        background-color: #55BDCA;
+        color: #EAF7F8;
+        padding: 1em;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        outline: none;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.4;
+        width: 400px;
+        height: 100px;
+        transition: all 0.2s;
+    }
+        .textarea::placeholder {
+            color: #EAF7F8;
+        }
+
+        .textarea:hover {
+            cursor: pointer;
+            background-color: #eee;
+            border-color: #55BDCA;
+            color: #55BDCA;
+        }
+            .textarea:hover::placeholder {
+                color: #55BDCA;
+            }
+
+        .textarea:focus {
+            cursor: text;
+            color: #022449;
+            background-color: white;
+            border-color: #022449;
+        }
+            .textarea:focus::placeholder {
+                color: #022449;
+            }
+    .validation {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+    }
+    .label {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+    }
+    h2 {
+        color: #022449;
+    }
+    .bg-plus {
+        background-color: #F27D42;
+        color: #EAF7F8;
+    }
+    .bg-plus:hover {
+        background-color: #D46D3A;
+        color: #EAF7F8;
+    }
+    .bg-minus {
+        background-color: #022449;
+        color: #EAF7F8;
+    }
+    .bg-minus:hover {
+        background-color: #021B37;
+        color: #EAF7F8;
+    }
+    .back{
+        padding: 18px;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1 col-sm-offset-2 back">
+            <a href="@Url.Action("Index")" class="btn btn-m bg-minus">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </div>
+        <div class="col-sm-9">
+            <h2>Create A Post</h2>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 add container">
+                @using (Html.BeginForm("Create", "Timeline", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
+                                @Html.TextAreaFor(model => model.Text, new { @class = "textarea", placeholder = "Enter text..." })<br />
+                                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger validation" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn bg-plus btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+@section Scripts {
+    
+}

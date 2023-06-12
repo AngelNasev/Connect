@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Connect.Models.TimelineVM>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Timeline";
+}
+<style>
+    .create {
+        padding: .75em;
+        margin-bottom: .5em;
+    }
+    .post {
+        padding: .75em;
+        margin-bottom: .5em;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-radius: 10px;
+    }
+    .text{
+        height: 80px;
+    }
+    .text p {
+        font-size: 16px;
+        color: #022449;
+        padding: 10px;
+    }
+    em {
+        color: #EAF7F8;
+    }
+    .user {
+        font-size: 18px;
+        color: #022449;
+        padding:10px;
+    }
+    .user:hover {
+        text-decoration: none;
+        color: #EAF7F8;
+    }
+    h2 {
+        display: inline-block;
+        color: #022449;
+    }
+    .bg-post {
+        background-color: #55BDCA;
+    }
+    .bg-plus {
+        background-color: #F27D42;
+        color: #EAF7F8;
+    }
+    .bg-plus:hover {
+        background-color: #D46D3A;
+        color: #EAF7F8;
+    }
+    .bg-minus {
+        background-color: #022449;
+        color: #EAF7F8;
+    }
+    .bg-minus:hover {
+        background-color: #021B37;
+        color: #EAF7F8;
+    }
+
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-2">
+            <h2 id="">Timeline</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4 create">
+            @Html.ActionLink("Create New Post", "Create", null, new {@class = "btn bg-plus btn-lg btn-block" })
+        </div>
+    </div>
+    
+    @foreach (var item in Model)
+    {
+    <div class="col-sm-8 col-sm-offset-2 post container table-bordered bg-post" >
+        <div class="row">
+            <div class="col-sm-10">
+                <b>
+                    @Html.ActionLink(item.Username, "Index", "UserProfile", new { @id = item.AuthorId }, new { @class = "user" })
+                </b>
+            </div>
+            <div class="col-sm-2">
+                <h5><em>@Html.DisplayFor(modelItem => item.CreatedAt)</em></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 text">
+                <p>@Html.DisplayFor(modelItem => item.Text)</p>
+            </div>
+            <div class="col-sm-2">
+                @if (User.Identity.GetUserId() == item.AuthorId)
+                {
+                    <div class="buttons">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn bg-plus btn-sm btn-block" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn bg-minus btn-sm btn-block" })
+                    </div>
+                }
+                else
+                {
+                    <div class="buttons">
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    }
+</div>

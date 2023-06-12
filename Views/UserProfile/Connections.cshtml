@@ -1,0 +1,141 @@
+﻿@model Connect.Models.PendingAndEstablishedVM
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Connections";
+}
+<style>
+    .footer {
+        display: none;
+    }
+
+    hr {
+        display: none;
+    }
+    .data {
+        padding: .75em;
+        margin-bottom: .5em;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-radius: 10px;
+    }
+    .remove{
+        color:red;
+    }
+    .add{
+        color:forestgreen;
+    }
+    .button{
+        display:inline-block;
+        margin-left: 1em;
+    }
+    .button:first-of-type{
+        margin-left: 3.5em;
+    }
+    .mt{
+        margin-top:20px;
+    }
+    h2 {
+        color: #022449;
+    }
+    .friend {
+        background-color: #55BDCA;
+    }
+    .bg-minus {
+        background-color: #022449;
+        color: #EAF7F8;
+    }
+
+        .bg-minus:hover {
+            background-color: #021B37;
+            color: #EAF7F8;
+        }
+
+    .back {
+        padding: 18px;
+    }
+    .name {
+        color: #022449;
+        font-weight:bold;
+        padding-left:1em;
+    }
+    .name:hover {
+        text-decoration: none;
+        color: #EAF7F8;
+    }
+    .request {
+        color: #EAF7F8;
+    }
+</style>
+<div class="container">
+    @{ if (User.Identity.GetUserId() == Model.UserId)
+        {
+            <div class="row">
+                <div class="col-sm-1 col-sm-offset-2 back">
+                    <a href="@Url.Action("Index","UserProfile",new { id = Model.UserId })" class="btn btn-m bg-minus">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                    </a>
+                </div>
+                <div class="col-sm-9">
+                    <h2>Pending Connection Requests</h2>
+                </div>
+            </div>
+            foreach (var item in Model.PendingVM)
+            {
+                <div class="col-sm-8 col-sm-offset-2 data container table-bordered friend">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4>@Html.ActionLink(item.FriendUsername, "Index", new { @id = item.FriendId }, new { @class = "name" })</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            @if (item.FromMe)
+                            {
+                                <h4 class="request"><em>Friend Request Sent</em></h4>
+                            }
+                            else
+                            {
+                                <h4 class="button"><a class="add" href="@Url.Action("AcceptPending",new { ConnectionId = item.ConnectionId, UserId = item.UserId })"><span class="glyphicon glyphicon-ok"></span></a></h4>
+                                <h4 class="button"><a class="remove" href="@Url.Action("DeclinePending",new { ConnectionId = item.ConnectionId, UserId = item.UserId })"><span class="glyphicon glyphicon-remove"></span></a></h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-3 mt">
+                    <h2>Established Connections</h2>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-sm-1 col-sm-offset-2 back">
+                    <a href="@Url.Action("Index","UserProfile",new { id = Model.UserId })" class="btn btn-m bg-minus">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                    </a>
+                </div>
+                <div class="col-sm-9">
+                    <h2>Established Connections</h2>
+                </div>
+            </div>
+        }
+    }
+    @foreach (var item in Model.ConnectionVM)
+    {
+        <div class="col-sm-8 col-sm-offset-2 data container table-bordered friend">
+            <div class="row">
+                <div class="col-sm-11">
+                    <h4>@Html.ActionLink(item.FriendUsername, "Index", new { @id = item.FriendId }, new { @class = "name" })</h4>
+                </div>
+                <div class="col-sm-1">
+                    @if (User.Identity.GetUserId() == Model.UserId)
+                    {
+                        <h4><a class="remove" href="@Url.Action("RemoveConnection",new { ConnectionId = item.ConnectionId, UserId = item.UserId })"><span class="glyphicon glyphicon-remove"></span></a></h4>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

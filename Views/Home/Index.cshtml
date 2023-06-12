@@ -1,0 +1,36 @@
+﻿@using System.Web.Mvc.Html;
+@{
+    ViewBag.Title = "Connect - Home Page";
+}
+<style>
+    #footer{
+        display:none;
+    }
+    hr{
+        display:none;
+    }
+    .jumbotron {
+        background-color: #55BDCA;
+        border-radius: 0 0 5em 5em !important;
+    }
+
+    .jumbotron h1, .jumbotron p {
+        color: #022449;
+    }
+
+    .btn-orange {
+        background-color: #F27D42;
+        color: #EAF7F8;
+    }
+</style>
+
+<div class="jumbotron text-center">
+    <h1>Welcome to Connect!</h1>
+    <p class="lead">Connect let's you CONNECT with the people you love</p>
+    <p>If you already have an account click Log in, otherwise click register!</p>
+    @Html.ActionLink("Log in", "Login", "Account", new { id = "loginLink" }, new { @class = "btn btn-orange btn-lg" })&nbsp;
+    @Html.ActionLink("Register", "Register", "Account", new { id = "registerLink" }, new { @class = "btn btn-orange btn-lg" })<br /><br />
+    <p>If you're already logged in, click here to see your timeline!</p>
+    @Html.ActionLink("Go to Timeline","Index","Timeline", new {id="timelineLink"}, new {@class="btn btn-orange btn-lg"})
+
+</div>
